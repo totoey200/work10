@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
     void write(int year, int month, int day){
         String name = setdateformat(year,month,day);
-        try {
+        try { // 파일에 쓰기는 아래와 같습니다. 꼭 try catch를 사용해야합니다.
             String path =getExternalPath();
             BufferedWriter bw = new BufferedWriter(new FileWriter(path +"diary/"
                     +name, false));
@@ -177,14 +177,14 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage() + ":" + getFilesDir(),
                     Toast.LENGTH_SHORT).show();
-        }
+        } // 여기까지 파일 쓰기
         memolist.add(name);
         sort();
         btnsave.setText("저장");
     }
     void read(String name){
         btnsave.setText("수정");
-        try {
+        try { // 여기서 부터 파일 읽기
             String path =getExternalPath();
             BufferedReader br = new BufferedReader(new
                     FileReader(path + "diary/" +name));
@@ -203,14 +203,14 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }// 여기까지 파일 읽기
     }
 
     void getlist(){
         memolist.clear();
         String path =getExternalPath();
         File[] files =
-                new File(path + "diary").listFiles();
+                new File(path + "diary").listFiles(); // 경로에 있는 파일들 가져오기
         for(File f:files) {
             memolist.add(f.getName());
         }
@@ -263,12 +263,12 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,str,Toast.LENGTH_SHORT).show();
         }
     }
-    public String getExternalPath(){
+    public String getExternalPath(){ // 외부저장소 경로 가지고오는 메소드
         String sdPath = "";
-        String ext = Environment.getExternalStorageState();
-        if(ext.equals(Environment.MEDIA_MOUNTED)) {
+        String ext = Environment.getExternalStorageState(); // 외부 저장소가 있는지 확인
+        if(ext.equals(Environment.MEDIA_MOUNTED)) { // 외부저장소가 있다면 경로 받아주기
             sdPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
-        }else
+        }else // 외부저장소가 없다면 경로 가져오기
             sdPath = getFilesDir() + "";
         return sdPath;
     }
